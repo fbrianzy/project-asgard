@@ -1,0 +1,11 @@
+customer_id,gender,city,age,income,churn
+1,Female,Surabaya,21,6760101,0
+2,Female,Gresik,46,5698930,0
+3,Male,Gresik,39,4640946,1
+4,Male,Malang,42,7462275,0
+5,Male,Sidoarjo,30,5646814,0
+6,Female,Sidoarjo,35,6153193,0
+7,Female,Sidoarjo,50,6826601,1
+8,Female,Gresik,33,6058316,1
+9,Male,Malang,59,6064907,0
+10,Male,Surabaya,19,7545710,0

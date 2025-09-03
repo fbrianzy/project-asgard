@@ -1,0 +1,28 @@
+---
+title: "Quick Statistical Report"
+author: "Stats Starter"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    theme: cosmo
+params:
+  data_path: NULL
+  target: NULL
+  cls_target: NULL
+  date_col: NULL
+  value_col: NULL
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+suppressPackageStartupMessages({
+  library(fs); library(dplyr); library(ggplot2); library(readr)
+  library(skimr); library(readxl); library(rio); library(janitor)
+  source("../R/load_data.R"); source("../R/cleaning.R"); source("../R/eda.R")
+  source("../R/modeling_regression.R"); source("../R/modeling_classification.R")
+  source("../R/timeseries.R")
+})
+DF <- load_data(params$data_path)
+DF <- clean_basic(DF)
+run_eda(DF, target = params$target)
