@@ -1,5 +1,5 @@
 <h1 align="center"> ⚡ Project Asgard ⚡ </h1>
-<h3 align="center"> 💻 Multi-Language Code </h3>
+<h3 align="center"> 💻 Multi-Language Code Showcase </h3>
 
 <p align="center">
   <b>Project Asgard</b> is a cross-language programming repository that demonstrates 
