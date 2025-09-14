@@ -1,0 +1,75 @@
+<Window x:Class="FinanceTracker.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:FinanceTracker.ViewModels"
+        mc:Ignorable="d"
+        Title="Finance Tracker" Height="520" Width="820" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
+    <Grid Margin="12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Personal Finance Tracker" FontSize="20" FontWeight="Bold"/>
+
+        <!-- Left: Input form -->
+        <StackPanel Grid.Row="1" Margin="0,12,12,12" Spacing="6">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="Date" Width="80" VerticalAlignment="Center"/>
+                <DatePicker SelectedDate="{Binding Draft.Date}" Width="180"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="Category" Width="80" VerticalAlignment="Center"/>
+                <ComboBox ItemsSource="{Binding Categories}" SelectedItem="{Binding Draft.Category}" Width="180"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="Type" Width="80" VerticalAlignment="Center"/>
+                <ComboBox SelectedItem="{Binding Draft.Type}" Width="180">
+                    <ComboBoxItem>Income</ComboBoxItem>
+                    <ComboBoxItem>Expense</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="Amount" Width="80" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding Draft.Amount}" Width="180"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="Description" Width="80" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding Draft.Description}" Width="260"/>
+            </StackPanel>
+            <Button Content="Add Transaction" Command="{Binding AddCommand}" Width="180" Margin="0,8,0,0"/>
+        </StackPanel>
+
+        <!-- Right: Table -->
+        <DataGrid Grid.Column="1" Grid.Row="1" Margin="0,12,0,12"
+                  ItemsSource="{Binding Transactions}" AutoGenerateColumns="False"
+                  SelectedItem="{Binding Selected}" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=yyyy-MM-dd}"/>
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding Type}"/>
+                <DataGridTextColumn Header="Amount" Binding="{Binding Amount}"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Summary -->
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="16">
+            <TextBlock Text="{Binding TotalIncome, StringFormat=Total Income: {0:C}}"/>
+            <TextBlock Text="{Binding TotalExpense, StringFormat=Total Expense: {0:C}}"/>
+            <TextBlock Text="{Binding Balance, StringFormat=Balance: {0:C}}" FontWeight="Bold"/>
+            <Button Content="Delete Selected" Command="{Binding DeleteSelectedCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>
