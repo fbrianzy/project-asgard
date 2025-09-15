@@ -1,0 +1,84 @@
+<Window x:Class="WeatherDashboard.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:WeatherDashboard.ViewModels"
+        Title="Weather Dashboard" Height="560" Width="840" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top controls -->
+        <DockPanel LastChildFill="True">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Spacing="8">
+                <TextBlock Text="City" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding City}" Width="180"/>
+                <TextBlock Text="API Key" VerticalAlignment="Center" Margin="12,0,0,0"/>
+                <PasswordBox Width="260">
+                    <PasswordBox.Resources>
+                        <Style TargetType="PasswordBox">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="PasswordBox">
+                                        <Grid>
+                                            <ScrollViewer x:Name="PART_ContentHost"/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </PasswordBox.Resources>
+                    <PasswordBox.Tag>
+                        <Binding Path="ApiKey" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                    </PasswordBox.Tag>
+                </PasswordBox>
+                <Button Content="Fetch" Command="{Binding FetchCommand}" Margin="12,0,0,0"/>
+               
+            </StackPanel>
+        </DockPanel>
+
+        <Grid Grid.Row="1" ColumnDefinitions="2*,3*">
+            <!-- History -->
+            <StackPanel Margin="0,12,12,0">
+                <TextBlock Text="History" FontWeight="Bold"/>
+                <ListBox ItemsSource="{Binding History}" Height="420"/>
+                <TextBlock Text="* Requires free OpenWeather API key" Foreground="Gray" Margin="0,12,0,0"/>
+                <HyperlinkButton/>
+            </StackPanel>
+
+            <!-- Current weather display -->
+            <Border Grid.Column="1" Padding="16" BorderBrush="#ddd" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Width="120" Height="120">
+                        <Image.Source>
+                            <BitmapImage UriSource="{Binding IconUrl}"/>
+                        </Image.Source>
+                    </Image>
+                    <StackPanel Grid.Column="1" Margin="16,0,0,0" Spacing="6">
+                        <TextBlock Text="{Binding Current.Name}" FontSize="22" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Current.Sys.Country, StringFormat=Country: {0}}"/>
+                        <TextBlock Text="{Binding Current.Weather[0].Main, StringFormat=Condition: {0}}"/>
+                        <TextBlock Text="{Binding Current.Weather[0].Description, StringFormat=Details: {0}}"/>
+                        <TextBlock Text="{Binding Current.Main.Temp, StringFormat=Temperature: {0}°C}" FontSize="18"/>
+                        <TextBlock Text="{Binding Current.Main.Humidity, StringFormat=Humidity: {0}%}"/>
+                        <TextBlock Text="{Binding Current.Wind.Speed, StringFormat=Wind: {0} m/s}"/>
+                        <TextBlock Text="{Binding Current.Main.Pressure, StringFormat=Pressure: {0} hPa}"/>
+                        <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,8,0,0">
+                            <TextBlock Text="{Binding Current.Main.TempMin, StringFormat=Min: {0}°C}"/>
+                            <TextBlock Text="{Binding Current.Main.TempMax, StringFormat=Max: {0}°C}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
